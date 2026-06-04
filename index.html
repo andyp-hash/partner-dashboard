@@ -515,6 +515,10 @@
       <div class="nav-item"><span class="icon">🗺️</span>지도 탐색 통계</div>
       <div class="nav-item"><span class="icon">⭐</span>즐겨찾기 · 저장</div>
 
+      <div class="nav-section-label">경쟁 인텔리전스</div>
+      <div class="nav-item"><span class="icon">⚔️</span>경쟁업체 랭킹</div>
+      <div class="nav-item"><span class="icon">📡</span>마케팅 활동 피드</div>
+
       <div class="nav-section-label">설정</div>
       <div class="nav-item"><span class="icon">⚙️</span>알림 설정</div>
     </nav>
@@ -1273,6 +1277,132 @@
         </div>
       </div>
 
+      <!-- ════════════════════════════════
+           SECTION 6 · 주변 경쟁업체 인텔리전스
+      ════════════════════════════════ -->
+      <div class="section-header" style="margin-top:40px;">
+        <div class="section-icon" style="background:rgba(255,69,58,.12);">⚔️</div>
+        <div class="section-title">주변 경쟁업체 동향</div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+          <div style="font-size:11px;color:var(--text3);background:var(--bg);padding:4px 10px;border-radius:20px;">반경 1km · 동종업종 · 익명화 처리</div>
+        </div>
+      </div>
+
+      <!-- 긴급 알림 배너 -->
+      <div id="competitor-alert" style="background:linear-gradient(135deg,#FF3B30,#FF9F0A);border-radius:var(--radius);padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 20px rgba(255,59,48,.25);">
+        <div style="font-size:28px;flex-shrink:0;">🔥</div>
+        <div style="flex:1;">
+          <div style="color:white;font-size:14px;font-weight:700;margin-bottom:3px;">지금 이 순간, 경쟁업체가 움직이고 있습니다</div>
+          <div style="color:rgba(255,255,255,.85);font-size:12px;line-height:1.5;">
+            <span id="alert-text">업체 B가 <strong>카카오맵 광고를 2시간 전 집행</strong>했고, 오늘 맵 노출이 <strong>+340% 급증</strong>했습니다. 내 매장 랭킹이 3위 → 4위로 밀렸습니다.</span>
+          </div>
+        </div>
+        <button onclick="document.getElementById('competitor-alert').style.display='none'" style="background:rgba(255,255,255,.2);border:none;color:white;border-radius:8px;padding:6px 12px;font-size:11px;cursor:pointer;flex-shrink:0;">닫기</button>
+      </div>
+
+      <!-- 내 랭킹 현황 -->
+      <div style="background:var(--surface);border-radius:var(--radius);padding:20px;margin-bottom:12px;box-shadow:var(--shadow);border:2px solid var(--kakao);">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="text-align:center;flex-shrink:0;">
+            <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">내 매장 현재 랭킹</div>
+            <div style="font-size:52px;font-weight:900;line-height:1;color:var(--text);">4<span style="font-size:20px;color:var(--text3);">위</span></div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:4px;margin-top:4px;">
+              <span style="font-size:12px;color:var(--red);font-weight:700;">▼ 1</span>
+              <span style="font-size:10px;color:var(--text3);">지난주 3위</span>
+            </div>
+          </div>
+          <div style="width:1px;height:60px;background:var(--border);flex-shrink:0;"></div>
+          <div style="flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+            <div style="text-align:center;">
+              <div style="font-size:10px;color:var(--text3);margin-bottom:4px;">맵 노출 순위</div>
+              <div style="font-size:20px;font-weight:800;">4위</div>
+              <div style="font-size:10px;color:var(--red);">▼ 2</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:10px;color:var(--text3);margin-bottom:4px;">즐겨찾기 순위</div>
+              <div style="font-size:20px;font-weight:800;">2위</div>
+              <div style="font-size:10px;color:var(--green);">▲ 1</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:10px;color:var(--text3);margin-bottom:4px;">리뷰 평점 순위</div>
+              <div style="font-size:20px;font-weight:800;">1위</div>
+              <div style="font-size:10px;color:var(--green);">유지</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:10px;color:var(--text3);margin-bottom:4px;">목적지 설정 순위</div>
+              <div style="font-size:20px;font-weight:800;">3위</div>
+              <div style="font-size:10px;color:var(--text3);">유지</div>
+            </div>
+          </div>
+          <div style="width:1px;height:60px;background:var(--border);flex-shrink:0;"></div>
+          <div style="flex-shrink:0;text-align:center;">
+            <div style="font-size:10px;color:var(--text3);margin-bottom:6px;">1위까지 차이</div>
+            <div style="font-size:13px;font-weight:700;color:var(--orange);">맵 광고 집행 시<br>추정 3일 내 탈환 가능</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 경쟁업체 랭킹 테이블 + 지도 -->
+      <div style="display:grid;grid-template-columns:3fr 2fr;gap:12px;margin-bottom:12px;">
+
+        <!-- 랭킹 테이블 -->
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div style="padding:16px 20px 0;">
+            <div style="font-size:13px;font-weight:700;margin-bottom:4px;">주변 경쟁업체 종합 랭킹</div>
+            <div style="font-size:11px;color:var(--text3);margin-bottom:14px;">카카오맵 노출·즐겨찾기·리뷰·목적지 설정 종합 스코어</div>
+          </div>
+          <table style="width:100%;border-collapse:collapse;">
+            <thead>
+              <tr style="background:var(--bg);">
+                <th style="padding:8px 20px;font-size:10px;color:var(--text3);font-weight:600;text-align:left;">순위</th>
+                <th style="padding:8px 8px;font-size:10px;color:var(--text3);font-weight:600;text-align:left;">업체</th>
+                <th style="padding:8px 8px;font-size:10px;color:var(--text3);font-weight:600;text-align:center;">거리</th>
+                <th style="padding:8px 8px;font-size:10px;color:var(--text3);font-weight:600;text-align:center;">맵노출</th>
+                <th style="padding:8px 8px;font-size:10px;color:var(--text3);font-weight:600;text-align:center;">즐겨찾기</th>
+                <th style="padding:8px 8px;font-size:10px;color:var(--text3);font-weight:600;text-align:center;">평점</th>
+                <th style="padding:8px 8px;font-size:10px;color:var(--text3);font-weight:600;text-align:center;">주간변동</th>
+                <th style="padding:8px 20px;font-size:10px;color:var(--text3);font-weight:600;text-align:center;">활동</th>
+              </tr>
+            </thead>
+            <tbody id="competitor-table-body">
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 경쟁업체 지도 -->
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div style="padding:14px 16px 8px;display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-size:13px;font-weight:700;">경쟁업체 분포 지도</div>
+            <div style="font-size:10px;color:var(--text3);">⭐ 내 매장</div>
+          </div>
+          <div id="competitor-map" style="height:360px;"></div>
+        </div>
+      </div>
+
+      <!-- 경쟁업체 활동 피드 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+            <div style="font-size:13px;font-weight:700;">🕵️ 경쟁업체 마케팅 활동 피드</div>
+            <div style="font-size:10px;color:var(--text3);">최근 7일 · 익명화</div>
+          </div>
+          <div id="activity-feed"></div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <!-- 업체별 마케팅 강도 -->
+          <div class="card">
+            <div style="font-size:13px;font-weight:700;margin-bottom:14px;">📊 업체별 이번 주 마케팅 강도</div>
+            <div id="marketing-intensity"></div>
+          </div>
+          <!-- 내가 해야 할 것 -->
+          <div style="background:linear-gradient(135deg,rgba(10,132,255,.08),rgba(48,209,88,.08));border:1px solid rgba(10,132,255,.2);border-radius:var(--radius);padding:18px;">
+            <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:10px;">💡 AI 추천 — 지금 당장 해야 할 것</div>
+            <div style="display:flex;flex-direction:column;gap:8px;" id="ai-tips"></div>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /content -->
   </main>
 </div>
@@ -1435,6 +1565,208 @@
   const heat = HeatLayer(heatPts, {});
   heat.onAdd(hmMap);
   hmMap.on('moveend zoomend', () => heat._draw());
+
+
+  // ════════════ 경쟁업체 데이터 ════════════
+  const MY = { lat: 37.5445, lng: 127.0557, name: '성수 스몰커피', rank: 4, prevRank: 3 };
+
+  const COMPETITORS = [
+    { id: 'A', name: '업체 A', alias: '카페 ㄱ', lat: 37.5462, lng: 127.0541, dist: '190m', score: 94, mapExp: 26800, fav: 4120, rating: 4.6, reviewCnt: 412,
+      rankNow: 1, rankPrev: 1, activities: ['카카오맵광고','채널메시지','쿠폰'],
+      mapExpChange: 18, favChange: 3, effect: '+28% 방문↑', color: '#FF453A' },
+    { id: 'B', name: '업체 B', alias: '카페 ㄴ', lat: 37.5428, lng: 127.0572, dist: '340m', score: 88, mapExp: 24200, fav: 3680, rating: 4.5, reviewCnt: 287,
+      rankNow: 2, rankPrev: 4, activities: ['카카오맵광고','소식발행'],
+      mapExpChange: 41, favChange: 12, effect: '+340% 노출↑', color: '#FF9F0A' },
+    { id: 'C', name: '업체 C', alias: '카페 ㄷ', lat: 37.5471, lng: 127.0583, dist: '510m', score: 82, mapExp: 21400, fav: 2940, rating: 4.7, reviewCnt: 198,
+      rankNow: 3, rankPrev: 2, activities: ['소식발행','쿠폰'],
+      mapExpChange: -4, favChange: -2, effect: '-4% 노출↓', color: '#30D158' },
+    { id: 'ME', name: '성수 스몰커피', alias: '내 매장', lat: 37.5445, lng: 127.0557, dist: '—', score: 79, mapExp: 18340, fav: 3142, rating: 4.8, reviewCnt: 342,
+      rankNow: 4, rankPrev: 3, activities: [],
+      mapExpChange: 0, favChange: 0, effect: '', color: '#FEE500', isMe: true },
+    { id: 'D', name: '업체 D', alias: '카페 ㄹ', lat: 37.5438, lng: 127.0528, dist: '620m', score: 71, mapExp: 15200, fav: 2180, rating: 4.4, reviewCnt: 156,
+      rankNow: 5, rankPrev: 5, activities: ['채널메시지'],
+      mapExpChange: 6, favChange: 1, effect: '+6% 노출↑', color: '#5AC8FA' },
+    { id: 'E', name: '업체 E', alias: '카페 ㅁ', lat: 37.5480, lng: 127.0548, dist: '780m', score: 63, mapExp: 12800, fav: 1840, rating: 4.3, reviewCnt: 124,
+      rankNow: 6, rankPrev: 6, activities: [],
+      mapExpChange: -2, favChange: 0, effect: '', color: '#BF5AF2' },
+  ];
+
+  // ── 랭킹 테이블 렌더 ──
+  const tbody = document.getElementById('competitor-table-body');
+  COMPETITORS.forEach(c => {
+    const isMe = c.isMe;
+    const rankDiff = c.rankPrev - c.rankNow;
+    const rankBadge = rankDiff > 0
+      ? `<span style="color:var(--green);font-weight:700;font-size:11px;">▲${rankDiff}</span>`
+      : rankDiff < 0
+        ? `<span style="color:var(--red);font-weight:700;font-size:11px;">▼${Math.abs(rankDiff)}</span>`
+        : `<span style="color:var(--text3);font-size:11px;">—</span>`;
+
+    const actBadges = c.activities.map(a => {
+      const cfg = {
+        '카카오맵광고':  ['#FF9F0A','🗺️'],
+        '채널메시지':   ['#0A84FF','💬'],
+        '쿠폰':        ['#30D158','🎟'],
+        '소식발행':    ['#BF5AF2','📢'],
+      };
+      const [bg, icon] = cfg[a] || ['#aaa','•'];
+      return `<span style="background:${bg}22;color:${bg};font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;white-space:nowrap;">${icon} ${a}</span>`;
+    }).join('');
+
+    const mapExpTxt = c.mapExpChange > 0
+      ? `<span style="color:var(--red);font-size:10px;font-weight:700;">+${c.mapExpChange}%🔥</span>`
+      : c.mapExpChange < 0
+        ? `<span style="color:var(--text3);font-size:10px;">↓${Math.abs(c.mapExpChange)}%</span>`
+        : '';
+
+    const tr = document.createElement('tr');
+    tr.style.cssText = isMe
+      ? 'background:rgba(254,229,0,.12);border-left:3px solid var(--kakao);'
+      : 'border-bottom:1px solid var(--bg);';
+    tr.innerHTML = `
+      <td style="padding:12px 20px;text-align:center;">
+        <div style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:${isMe ? 'var(--kakao)' : 'var(--bg)'};font-size:13px;font-weight:800;">${c.rankNow}</div>
+      </td>
+      <td style="padding:12px 8px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:${c.color};flex-shrink:0;"></div>
+          <div>
+            <div style="font-size:13px;font-weight:${isMe?'800':'600'};${isMe?'color:var(--kakao-brown);':''}">
+              ${c.alias}${isMe?' 👈 나':''}
+            </div>
+            <div style="font-size:10px;color:var(--text3);">${c.dist !== '—' ? c.dist+' 거리' : '내 매장'}</div>
+          </div>
+        </div>
+      </td>
+      <td style="padding:12px 8px;text-align:center;">
+        <div style="font-size:12px;font-weight:600;">${c.mapExp.toLocaleString()}</div>
+        <div style="margin-top:2px;">${mapExpTxt}</div>
+      </td>
+      <td style="padding:12px 8px;text-align:center;font-size:12px;font-weight:600;">${c.fav.toLocaleString()}</td>
+      <td style="padding:12px 8px;text-align:center;">
+        <div style="font-size:13px;font-weight:700;">${c.rating}⭐</div>
+        <div style="font-size:10px;color:var(--text3);">${c.reviewCnt}개</div>
+      </td>
+      <td style="padding:12px 8px;text-align:center;">${rankBadge}<div style="font-size:9px;color:var(--text3);">전주 ${c.rankPrev}위</div></td>
+      <td style="padding:12px 20px;max-width:160px;">
+        <div style="display:flex;flex-wrap:wrap;gap:3px;">${actBadges || '<span style="font-size:10px;color:var(--text3);">활동 없음</span>'}</div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // ── 경쟁업체 지도 ──
+  const cMap = L.map('competitor-map', { zoomControl: false, attributionControl: false }).setView(STORE, 15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(cMap);
+  L.control.zoom({ position: 'bottomright' }).addTo(cMap);
+
+  COMPETITORS.forEach(c => {
+    const isMe = c.isMe;
+    const pulse = c.activities.length > 0 && !isMe;
+    const iconHtml = isMe
+      ? `<div style="background:var(--kakao);width:38px;height:38px;border-radius:50%;border:3px solid var(--kakao-brown);display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 3px 12px rgba(0,0,0,.3);">☕</div>`
+      : `<div style="position:relative;">
+          ${pulse ? `<div style="position:absolute;inset:-4px;border-radius:50%;border:2px solid ${c.color};animation:pulse 1.5s ease-in-out infinite;opacity:.6;"></div>` : ''}
+          <div style="background:${c.color};width:32px;height:32px;border-radius:50%;border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:${c.color==='#FEE500'?'#3C1E1E':'white'};box-shadow:0 2px 8px rgba(0,0,0,.25);">${c.rankNow}</div>
+        </div>`;
+    const icon = L.divIcon({ html: iconHtml, iconSize: [38, 38], iconAnchor: [19, 19], className: '' });
+    const actText = c.activities.length ? `<br><small style="color:#888;">${c.activities.join(' · ')}</small>` : '';
+    L.marker([c.lat, c.lng], { icon })
+      .addTo(cMap)
+      .bindTooltip(`<b>${c.alias}</b> ${c.rankNow}위${actText}`, { direction: 'top' });
+  });
+
+  // ── 활동 피드 렌더 ──
+  const FEED = [
+    { time: '2시간 전', comp: '업체 B', act: '카카오맵광고', icon: '🗺️', color: '#FF9F0A',
+      desc: '카카오맵 광고 집행 시작', effect: '오늘 맵 노출 +340%, 방문자 추정 +28%', urgent: true },
+    { time: '4시간 전', comp: '업체 A', act: '채널메시지', icon: '💬', color: '#0A84FF',
+      desc: '채널 친구 전체에 메시지 발송', effect: '채널 방문 +180%, 쿠폰 사용 42건', urgent: true },
+    { time: '어제 18:30', comp: '업체 A', act: '쿠폰', icon: '🎟', color: '#30D158',
+      desc: '아메리카노 1+1 쿠폰 발행', effect: '쿠폰 저장 312건, 즐겨찾기 +24%', urgent: false },
+    { time: '어제 12:00', comp: '업체 C', act: '소식', icon: '📢', color: '#BF5AF2',
+      desc: '신메뉴 소식 발행', effect: '소식 조회 840건, 프로필 방문 +32%', urgent: false },
+    { time: '2일 전', comp: '업체 D', act: '채널메시지', icon: '💬', color: '#0A84FF',
+      desc: '주말 이벤트 안내 메시지', effect: '메시지 오픈율 38%, 클릭 124건', urgent: false },
+    { time: '3일 전', comp: '업체 B', act: '소식', icon: '📢', color: '#BF5AF2',
+      desc: '인테리어 리뉴얼 소식', effect: '소식 조회 1,240건, 지도 검색 +19%', urgent: false },
+  ];
+
+  const feedEl = document.getElementById('activity-feed');
+  FEED.forEach(f => {
+    feedEl.innerHTML += `
+      <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--bg);${f.urgent?'background:rgba(255,59,48,.03);margin:0 -20px;padding:10px 20px;border-radius:8px;':''}">
+        <div style="width:32px;height:32px;border-radius:8px;background:${f.color}22;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">${f.icon}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+            <span style="font-size:12px;font-weight:700;">${f.comp}</span>
+            <span style="font-size:10px;background:${f.color}22;color:${f.color};padding:1px 6px;border-radius:4px;font-weight:600;">${f.act}</span>
+            ${f.urgent ? '<span style="font-size:9px;background:var(--red);color:white;padding:1px 5px;border-radius:4px;font-weight:700;">긴급</span>' : ''}
+            <span style="font-size:10px;color:var(--text3);margin-left:auto;">${f.time}</span>
+          </div>
+          <div style="font-size:12px;color:var(--text);">${f.desc}</div>
+          <div style="font-size:11px;color:var(--green);font-weight:600;margin-top:2px;">→ ${f.effect}</div>
+        </div>
+      </div>`;
+  });
+
+  // ── 마케팅 강도 바 ──
+  const miEl = document.getElementById('marketing-intensity');
+  const MI = [
+    { name: '업체 A', acts: 3, score: 92, color: '#FF453A' },
+    { name: '업체 B', acts: 2, score: 84, color: '#FF9F0A' },
+    { name: '업체 C', acts: 2, score: 61, color: '#30D158' },
+    { name: '내 매장 👈', acts: 0, score: 12, color: '#FEE500', me: true },
+    { name: '업체 D', acts: 1, score: 38, color: '#5AC8FA' },
+    { name: '업체 E', acts: 0, score: 8, color: '#BF5AF2' },
+  ].sort((a,b) => b.score - a.score);
+
+  MI.forEach(m => {
+    miEl.innerHTML += `
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <div style="width:62px;font-size:11px;font-weight:${m.me?'700':'500'};color:${m.me?'var(--kakao-brown)':'var(--text)'};flex-shrink:0;${m.me?'background:var(--kakao);padding:1px 5px;border-radius:4px;':''}">${m.name}</div>
+        <div style="flex:1;height:10px;background:var(--bg);border-radius:5px;overflow:hidden;">
+          <div style="width:${m.score}%;height:100%;background:${m.color};border-radius:5px;transition:width .6s;"></div>
+        </div>
+        <div style="font-size:11px;font-weight:700;width:28px;text-align:right;">${m.score}</div>
+        <div style="font-size:10px;color:var(--text3);width:36px;">${m.acts}건</div>
+      </div>`;
+  });
+
+  // ── AI 추천 팁 ──
+  const TIPS = [
+    { icon: '🗺️', color: '#FF9F0A', title: '카카오맵 광고 지금 집행하세요', desc: '업체 B가 광고 집행으로 랭킹 2위 진입. 동일 집행 시 3일 내 2위 탈환 가능(추정).' },
+    { icon: '🎟', color: '#30D158', title: '쿠폰 발행으로 즐겨찾기 방어', desc: '업체 A 쿠폰 발행 후 즐겨찾기 +24%. 현재 즐겨찾기 2위 수성을 위해 이번 주 내 쿠폰 추천.' },
+    { icon: '💬', color: '#0A84FF', title: '채널 메시지 발송 타이밍', desc: '오늘 12~14시 경쟁업체 활동 공백. 이 시간대 메시지 발송 시 클릭률 최대화 예상.' },
+  ];
+
+  const tipsEl = document.getElementById('ai-tips');
+  TIPS.forEach(t => {
+    tipsEl.innerHTML += `
+      <div style="display:flex;gap:10px;padding:10px;background:rgba(255,255,255,.6);border-radius:10px;border:1px solid rgba(255,255,255,.8);">
+        <div style="width:28px;height:28px;border-radius:7px;background:${t.color}22;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">${t.icon}</div>
+        <div>
+          <div style="font-size:12px;font-weight:700;margin-bottom:2px;">${t.title}</div>
+          <div style="font-size:11px;color:var(--text2);line-height:1.4;">${t.desc}</div>
+        </div>
+      </div>`;
+  });
+
+  // ── 알림 배너 텍스트 순환 ──
+  const ALERTS = [
+    '업체 B가 <strong>카카오맵 광고를 2시간 전 집행</strong>했고, 오늘 맵 노출이 <strong>+340% 급증</strong>했습니다. 내 매장 랭킹이 3위 → 4위로 밀렸습니다.',
+    '업체 A가 <strong>채널 메시지를 4시간 전 발송</strong>했습니다. 쿠폰 저장 42건 발생 중. 지금 대응하세요.',
+    '업체 C가 <strong>지난주 대비 즐겨찾기 +12% 상승</strong>. 리뷰 수 빠르게 증가하고 있습니다.',
+  ];
+  let alertIdx = 0;
+  setInterval(() => {
+    alertIdx = (alertIdx + 1) % ALERTS.length;
+    const el = document.getElementById('alert-text');
+    if (el) el.innerHTML = ALERTS[alertIdx];
+  }, 6000);
+
+  // ── 사이드바 경쟁업체 nav 활성화 ──
+  // (기존 nav-item 클릭 이벤트가 처리)
 
 
   // ════════════ 공통 ticker ════════════
