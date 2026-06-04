@@ -527,7 +527,7 @@
     <div class="topbar">
       <div class="page-title">통합 대시보드</div>
       <div class="topbar-right">
-        <div class="live-badge"><span class="live-dot"></span>LIVE · 1분 갱신</div>
+        <div class="live-badge"><span class="live-dot"></span>LIVE · 5초 갱신</div>
         <div class="last-update">마지막 업데이트 14:07</div>
         <div class="date-tabs">
           <div class="date-tab active">오늘</div>
@@ -1473,7 +1473,7 @@
     setInterval(() => {
       const val = base + Math.round((Math.random() - 0.5) * variance);
       el.textContent = val.toLocaleString('ko-KR');
-    }, 8000 + Math.random() * 4000);
+    }, 5000);
   }
 
   document.querySelectorAll('.ticker-num').forEach((el, i) => {
