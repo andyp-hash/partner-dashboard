@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>파트너 인사이트 — 카카오비즈니스</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --kakao: #FEE500;
+    --kakao-brown: #3C1E1E;
+    --bg: #F5F5F7;
+    --surface: #FFFFFF;
+    --surface2: #F9F9FB;
+    --border: #EBEBED;
+    --text: #1A1A1C;
+    --text2: #6E6E73;
+    --text3: #AEAEB2;
+    --blue: #0A84FF;
+    --green: #30D158;
+    --red: #FF453A;
+    --orange: #FF9F0A;
+    --purple: #BF5AF2;
+    --teal: #5AC8FA;
+    --live: #FF3B30;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 2px 12px rgba(0,0,0,.07);
+  }
+
+  body {
+    font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ── Layout ── */
+  .layout { display: flex; min-height: 100vh; }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    background: var(--kakao-brown);
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 24px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar-header {
+    padding: 28px 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--kakao);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  .logo-text {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+  }
+
+  .biz-card {
+    background: rgba(255,255,255,.08);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+  }
+
+  .biz-name {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .biz-category {
+    color: rgba(255,255,255,.5);
+    font-size: 11px;
+  }
+
+  .nav { padding: 16px 12px; flex: 1; }
+
+  .nav-section-label {
+    color: rgba(255,255,255,.35);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    padding: 8px 8px 6px;
+    margin-top: 4px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: var(--radius-sm);
+    color: rgba(255,255,255,.6);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .15s;
+    margin-bottom: 2px;
+  }
+
+  .nav-item:hover { background: rgba(255,255,255,.08); color: #fff; }
+  .nav-item.active { background: var(--kakao); color: var(--kakao-brown); font-weight: 600; }
+  .nav-item .icon { font-size: 15px; width: 18px; text-align: center; }
+
+  /* ── Main ── */
+  .main { flex: 1; overflow-x: hidden; }
+
+  /* ── Top bar ── */
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .page-title { font-size: 17px; font-weight: 700; }
+
+  .topbar-right { display: flex; align-items: center; gap: 16px; }
+
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,59,48,.1);
+    color: var(--live);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 20px;
+    letter-spacing: .3px;
+  }
+
+  .live-dot {
+    width: 6px; height: 6px;
+    background: var(--live);
+    border-radius: 50%;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .4; transform: scale(.8); }
+  }
+
+  .last-update { color: var(--text3); font-size: 12px; }
+
+  .date-tabs {
+    display: flex;
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 3px;
+  }
+
+  .date-tab {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text2);
+    transition: all .15s;
+  }
+
+  .date-tab.active { background: var(--surface); color: var(--text); font-weight: 600; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+
+  /* ── Content ── */
+  .content { padding: 28px 32px 48px; }
+
+  /* ── Section header ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    margin-top: 32px;
+  }
+
+  .section-header:first-of-type { margin-top: 0; }
+
+  .section-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+
+  .section-title { font-size: 16px; font-weight: 700; }
+  .section-sub { font-size: 12px; color: var(--text2); margin-left: auto; }
+
+  /* ── Grid ── */
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .grid-12 { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; }
+  .grid-21 { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+
+  /* ── Stat card ── */
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-sm { padding: 16px; }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text2);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    margin-bottom: 8px;
+  }
+
+  .stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-value.live-value { color: var(--live); }
+  .stat-value.md { font-size: 22px; }
+  .stat-value.sm { font-size: 18px; }
+
+  .stat-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat-mini { flex: 1; }
+  .stat-mini-label { font-size: 10px; color: var(--text3); margin-bottom: 3px; }
+  .stat-mini-value { font-size: 14px; font-weight: 600; }
+
+  .delta {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 5px;
+  }
+
+  .delta.up { color: var(--green); background: rgba(48,209,88,.1); }
+  .delta.down { color: var(--red); background: rgba(255,69,58,.1); }
+  .delta.flat { color: var(--text3); background: var(--bg); }
+
+  /* ── Sparkline placeholder ── */
+  .sparkline {
+    height: 40px;
+    margin-top: 12px;
+    background: linear-gradient(to bottom, rgba(10,132,255,.08), transparent);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sparkline svg { width: 100%; height: 100%; }
+
+  /* ── Keyword table ── */
+  .keyword-table { width: 100%; border-collapse: collapse; }
+  .keyword-table th {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    padding: 8px 0;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .keyword-table th:not(:first-child) { text-align: right; }
+
+  .keyword-table td {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--bg);
+    font-size: 13px;
+    vertical-align: middle;
+  }
+
+  .keyword-table td:not(:first-child) { text-align: right; }
+  .keyword-table tr:last-child td { border-bottom: none; }
+
+  .keyword-rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; height: 20px;
+    background: var(--bg);
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text3);
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  .keyword-rank.top { background: var(--kakao); color: var(--kakao-brown); }
+
+  .keyword-name { font-weight: 500; }
+
+  .bar-wrap {
+    width: 80px;
+    height: 5px;
+    background: var(--bg);
+    border-radius: 3px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 8px;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--blue);
+  }
+
+  /* ── Realtime ticker ── */
+  .realtime-ticker {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .ticker-num {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ticker-unit { font-size: 13px; color: var(--text2); }
+
+  /* ── Source table ── */
+  .source-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--bg);
+    gap: 10px;
+  }
+
+  .source-item:last-child { border-bottom: none; }
+
+  .source-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .source-name { font-size: 13px; font-weight: 500; flex: 1; }
+  .source-sub { font-size: 11px; color: var(--text3); }
+
+  .source-num { font-size: 15px; font-weight: 700; text-align: right; }
+  .source-pct { font-size: 11px; color: var(--text3); text-align: right; }
+
+  /* ── Map stats ── */
+  .map-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .map-stat-cell {
+    background: var(--surface);
+    padding: 18px 20px;
+  }
+
+  .map-stat-cell:first-child { border-radius: var(--radius) 0 0 0; }
+  .map-stat-cell:nth-child(2) { border-radius: 0 var(--radius) 0 0; }
+  .map-stat-cell:nth-last-child(2) { border-radius: 0 0 0 var(--radius); }
+  .map-stat-cell:last-child { border-radius: 0 0 var(--radius) 0; }
+
+  /* ── Heatmap ── */
+  .heatmap { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+  .heatmap-row { display: flex; gap: 3px; align-items: center; }
+  .heatmap-label { width: 28px; font-size: 10px; color: var(--text3); text-align: right; flex-shrink: 0; }
+  .heatmap-cell {
+    flex: 1; height: 20px; border-radius: 3px;
+    background: var(--bg);
+    position: relative;
+    cursor: default;
+  }
+  .heatmap-header { display: flex; gap: 3px; padding-left: 31px; margin-bottom: 2px; }
+  .heatmap-header span { flex: 1; font-size: 9px; color: var(--text3); text-align: center; }
+
+  /* ── Tabs ── */
+  .tab-bar {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+    gap: 0;
+  }
+
+  .tab {
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+
+  .tab.active { color: var(--text); border-bottom-color: var(--text); font-weight: 700; }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+  }
+
+  /* ── Tooltip-style sub ── */
+  .card-note {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  /* ── Color accents ── */
+  .accent-yellow { background: rgba(254,229,0,.15); }
+  .accent-blue { background: rgba(10,132,255,.1); }
+  .accent-green { background: rgba(48,209,88,.1); }
+  .accent-red { background: rgba(255,69,58,.1); }
+  .accent-purple { background: rgba(191,90,242,.1); }
+  .accent-orange { background: rgba(255,159,10,.1); }
+
+  /* scroll */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,.15); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-mark">💬</div>
+        <span class="logo-text">파트너 인사이트</span>
+      </div>
+      <div class="biz-card">
+        <div class="biz-name">성수 스몰커피</div>
+        <div class="biz-category">카페·음료 · 서울 성동구</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section-label">개요</div>
+      <div class="nav-item active"><span class="icon">📊</span>통합 대시보드</div>
+
+      <div class="nav-section-label">카카오톡 채널</div>
+      <div class="nav-item"><span class="icon">🔍</span>키워드 인사이트</div>
+      <div class="nav-item"><span class="icon">👥</span>채널 방문 분석</div>
+      <div class="nav-item"><span class="icon">🔗</span>유입 경로</div>
+
+      <div class="nav-section-label">카카오맵 매장</div>
+      <div class="nav-item"><span class="icon">📍</span>매장 방문 분석</div>
+      <div class="nav-item"><span class="icon">🗺️</span>지도 탐색 통계</div>
+      <div class="nav-item"><span class="icon">⭐</span>즐겨찾기 · 저장</div>
+
+      <div class="nav-section-label">설정</div>
+      <div class="nav-item"><span class="icon">⚙️</span>알림 설정</div>
+    </nav>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="page-title">통합 대시보드</div>
+      <div class="topbar-right">
+        <div class="live-badge"><span class="live-dot"></span>LIVE · 1분 갱신</div>
+        <div class="last-update">마지막 업데이트 14:07</div>
+        <div class="date-tabs">
+          <div class="date-tab active">오늘</div>
+          <div class="date-tab">어제</div>
+          <div class="date-tab">7일</div>
+          <div class="date-tab">30일</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ════════════════════════════════
+           SECTION 1 · 톡 키워드 검색 통계
+      ════════════════════════════════ -->
+      <div class="section-header">
+        <div class="section-icon accent-yellow">🔍</div>
+        <div class="section-title">카카오톡 키워드 검색 통계</div>
+        <div class="section-sub">유사 키워드 + 정확 일치 검색량</div>
+      </div>
+
+      <!-- 유사 키워드 vs 정확일치 상단 요약 -->
+      <div class="grid-4" style="margin-bottom: 12px;">
+        <div class="card">
+          <div class="stat-label">유사 키워드 실시간</div>
+          <div class="realtime-ticker">
+            <span class="ticker-num" style="color:var(--orange)">1,247</span>
+            <span class="ticker-unit">검색/분</span>
+          </div>
+          <div class="stat-row">
+            <div class="stat-mini">
+              <div class="stat-mini-label">어제 합계</div>
+              <div class="stat-mini-value">84,320</div>
+            </div>
+            <div class="stat-mini">
+              <div class="stat-mini-label">7일 합계</div>
+              <div class="stat-mini-value">521,800</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="stat-label">채널명 정확 검색 실시간</div>
+          <div class="realtime-ticker">
+            <span class="ticker-num" style="color:var(--blue)">38</span>
+            <span class="ticker-unit">검색/분</span>
+          </div>
+          <div class="stat-row">
+            <div class="stat-mini">
+              <div class="stat-mini-label">어제 합계</div>
+              <div class="stat-mini-value">2,140</div>
+            </div>
+            <div class="stat-mini">
+              <div class="stat-mini-label">7일 합계</div>
+              <div class="stat-mini-value">14,980</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="stat-label">오늘 유사 키워드 누적</div>
+          <div class="stat-value md">62,480</div>
+          <span class="delta up">↑ 12.3%</span>
+          <div class="sparkline">
+            <svg viewBox="0 0 200 40" preserveAspectRatio="none">
+              <polyline fill="rgba(10,132,255,.15)" stroke="var(--blue)" stroke-width="1.5"
+                points="0,35 25,28 50,30 75,18 100,22 125,15 150,20 175,10 200,8 200,40 0,40" />
+            </svg>
+          </div>
+        </div>
+        <div class="card">
+          <div class="stat-label">오늘 정확 검색 누적</div>
+          <div class="stat-value md">1,920</div>
+          <span class="delta up">↑ 8.1%</span>
+          <div class="sparkline">
+            <svg viewBox="0 0 200 40" preserveAspectRatio="none">
+              <polyline fill="rgba(48,209,88,.15)" stroke="var(--green)" stroke-width="1.5"
+                points="0,38 25,32 50,35 75,25 100,28 125,20 150,22 175,14 200,12 200,40 0,40" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 유사 키워드 TOP 10 -->
+      <div class="grid-2">
+        <div class="card">
+          <div style="font-size:13px;font-weight:700;margin-bottom:14px;">유사 키워드 TOP 10 <span style="font-size:11px;color:var(--text3);font-weight:400;">— 업종·업태·상호 유사</span></div>
+          <table class="keyword-table">
+            <thead>
+              <tr>
+                <th>키워드</th>
+                <th>실시간/분</th>
+                <th>오늘</th>
+                <th>7일</th>
+                <th>추이</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="keyword-rank top">1</span><span class="keyword-name">성수동 카페</span></td>
+                <td>284</td>
+                <td>14,820</td>
+                <td>98,440</td>
+                <td><span class="delta up">↑ 24%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank top">2</span><span class="keyword-name">성수 커피</span></td>
+                <td>196</td>
+                <td>10,340</td>
+                <td>72,180</td>
+                <td><span class="delta up">↑ 18%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank top">3</span><span class="keyword-name">서울 스몰카페</span></td>
+                <td>142</td>
+                <td>7,920</td>
+                <td>54,660</td>
+                <td><span class="delta up">↑ 9%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">4</span><span class="keyword-name">성동구 카페</span></td>
+                <td>118</td>
+                <td>6,140</td>
+                <td>41,020</td>
+                <td><span class="delta flat">→ 2%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">5</span><span class="keyword-name">성수 조용한 카페</span></td>
+                <td>97</td>
+                <td>5,280</td>
+                <td>35,400</td>
+                <td><span class="delta up">↑ 31%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">6</span><span class="keyword-name">핸드드립 카페</span></td>
+                <td>84</td>
+                <td>4,460</td>
+                <td>29,820</td>
+                <td><span class="delta down">↓ 5%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">7</span><span class="keyword-name">성수역 카페</span></td>
+                <td>71</td>
+                <td>3,840</td>
+                <td>24,580</td>
+                <td><span class="delta up">↑ 14%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">8</span><span class="keyword-name">성수 브런치카페</span></td>
+                <td>58</td>
+                <td>3,020</td>
+                <td>20,140</td>
+                <td><span class="delta up">↑ 6%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">9</span><span class="keyword-name">감성카페 서울</span></td>
+                <td>42</td>
+                <td>2,240</td>
+                <td>15,960</td>
+                <td><span class="delta down">↓ 3%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">10</span><span class="keyword-name">소규모 카페</span></td>
+                <td>31</td>
+                <td>1,680</td>
+                <td>11,440</td>
+                <td><span class="delta flat">→ 1%</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div style="font-size:13px;font-weight:700;margin-bottom:14px;">채널명 정확 검색 — 시간대별 분포</div>
+          <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">오늘 시간대별 검색량 히트맵</div>
+          <div class="heatmap-header">
+            <span>0</span><span>2</span><span>4</span><span>6</span><span>8</span>
+            <span>10</span><span>12</span><span>14</span><span>16</span><span>18</span>
+            <span>20</span><span>22</span>
+          </div>
+          <div class="heatmap">
+            <div class="heatmap-row">
+              <div class="heatmap-label">오늘</div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.08)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.06)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.05)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.1)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.22)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.42)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.65)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.9)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.8)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.55)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.72)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.85)"></div>
+            </div>
+            <div class="heatmap-row">
+              <div class="heatmap-label">어제</div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.07)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.05)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.04)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.09)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.20)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.38)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.58)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.72)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.62)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.48)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.68)"></div>
+              <div class="heatmap-cell" style="background:rgba(254,229,0,.78)"></div>
+            </div>
+          </div>
+
+          <div style="margin-top:20px; font-size:13px;font-weight:700;margin-bottom:12px;">정확 검색 유저 세그먼트 — 오늘 기준</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="background:var(--bg);border-radius:10px;padding:12px;">
+              <div style="font-size:10px;color:var(--text3);margin-bottom:6px;">연령대</div>
+              <div style="display:flex;flex-direction:column;gap:5px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:12px;">20대</span>
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <div style="width:60px;height:5px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="width:68%;height:100%;background:var(--blue);border-radius:3px;"></div></div>
+                    <span style="font-size:11px;font-weight:600;width:28px;text-align:right;">38%</span>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:12px;">30대</span>
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <div style="width:60px;height:5px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="width:50%;height:100%;background:var(--blue);border-radius:3px;"></div></div>
+                    <span style="font-size:11px;font-weight:600;width:28px;text-align:right;">29%</span>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:12px;">40대</span>
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <div style="width:60px;height:5px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="width:28%;height:100%;background:var(--blue);border-radius:3px;"></div></div>
+                    <span style="font-size:11px;font-weight:600;width:28px;text-align:right;">16%</span>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:12px;">50대+</span>
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <div style="width:60px;height:5px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="width:17%;height:100%;background:var(--blue);border-radius:3px;"></div></div>
+                    <span style="font-size:11px;font-weight:600;width:28px;text-align:right;">10%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="background:var(--bg);border-radius:10px;padding:12px;">
+              <div style="font-size:10px;color:var(--text3);margin-bottom:6px;">성별</div>
+              <div style="display:flex;justify-content:center;align-items:center;height:60px;gap:20px;">
+                <div style="text-align:center;">
+                  <div style="font-size:22px;font-weight:800;color:var(--purple);">62%</div>
+                  <div style="font-size:11px;color:var(--text3);">여성</div>
+                </div>
+                <div style="width:1px;height:40px;background:var(--border);"></div>
+                <div style="text-align:center;">
+                  <div style="font-size:22px;font-weight:800;color:var(--blue);">38%</div>
+                  <div style="font-size:11px;color:var(--text3);">남성</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════
+           SECTION 2 · 채널홈 방문 & 유입
+      ════════════════════════════════ -->
+      <div class="section-header" style="margin-top:40px;">
+        <div class="section-icon accent-blue">💬</div>
+        <div class="section-title">카카오톡 채널홈 방문 & 유입 분석</div>
+      </div>
+
+      <div class="grid-4" style="margin-bottom:12px;">
+        <div class="card">
+          <div class="stat-label">채널홈 방문 · 실시간</div>
+          <div class="realtime-ticker">
+            <span class="ticker-num" style="color:var(--blue)">24</span>
+            <span class="ticker-unit">명/분</span>
+          </div>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="stat-mini-label">오늘 누적</div><div class="stat-mini-value">1,840</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">어제</div><div class="stat-mini-value">1,620</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">7일</div><div class="stat-mini-value">10,420</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="stat-label">채널홈 순방문자 · 오늘</div>
+          <div class="stat-value md">1,204</div>
+          <span class="delta up">↑ 13.6% 어제 대비</span>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="stat-mini-label">재방문율</div><div class="stat-mini-value">34.6%</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">평균 체류</div><div class="stat-mini-value">1분 42초</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="stat-label">채널 친구수</div>
+          <div class="stat-value md">8,420</div>
+          <span class="delta up">↑ +42 오늘</span>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="stat-mini-label">신규 (오늘)</div><div class="stat-mini-value">+42</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">차단 (오늘)</div><div class="stat-mini-value">−3</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">7일 순증</div><div class="stat-mini-value">+228</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="stat-label">채팅 요청 · 오늘</div>
+          <div class="stat-value md">127</div>
+          <span class="delta up">↑ 8.5%</span>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="stat-mini-label">응답률</div><div class="stat-mini-value">94%</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">평균응답</div><div class="stat-mini-value">4분</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 유입 경로 + 검색 키워드 -->
+      <div class="grid-2">
+        <div class="card">
+          <div style="font-size:13px;font-weight:700;margin-bottom:14px;">채널홈 유입 경로</div>
+          <div class="tab-bar">
+            <div class="tab active">오늘</div>
+            <div class="tab">어제</div>
+            <div class="tab">7일</div>
+          </div>
+
+          <div class="source-item">
+            <div class="source-icon accent-yellow">💬</div>
+            <div style="flex:1;">
+              <div class="source-name">카카오톡 검색</div>
+              <div class="source-sub">키워드 검색 → 채널 클릭</div>
+            </div>
+            <div>
+              <div class="source-num">684</div>
+              <div class="source-pct">37.1%</div>
+            </div>
+          </div>
+          <div class="source-item">
+            <div class="source-icon accent-blue">🔗</div>
+            <div style="flex:1;">
+              <div class="source-name">외부 링크 (SNS 공유)</div>
+              <div class="source-sub">인스타그램, 블로그, 기타</div>
+            </div>
+            <div>
+              <div class="source-num">412</div>
+              <div class="source-pct">22.4%</div>
+            </div>
+          </div>
+          <div class="source-item">
+            <div class="source-icon accent-green">📱</div>
+            <div style="flex:1;">
+              <div class="source-name">카카오맵 연동</div>
+              <div class="source-sub">맵 매장상세 → 채널 연결</div>
+            </div>
+            <div>
+              <div class="source-num">348</div>
+              <div class="source-pct">18.9%</div>
+            </div>
+          </div>
+          <div class="source-item">
+            <div class="source-icon accent-orange">📣</div>
+            <div style="flex:1;">
+              <div class="source-name">친구 메시지 발신</div>
+              <div class="source-sub">메시지 수신 후 채널 방문</div>
+            </div>
+            <div>
+              <div class="source-num">218</div>
+              <div class="source-pct">11.8%</div>
+            </div>
+          </div>
+          <div class="source-item">
+            <div class="source-icon accent-purple">🏠</div>
+            <div style="flex:1;">
+              <div class="source-name">직접 접근 (채널 바로가기)</div>
+              <div class="source-sub">즐겨찾기·저장된 채널</div>
+            </div>
+            <div>
+              <div class="source-num">178</div>
+              <div class="source-pct">9.7%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="font-size:13px;font-weight:700;margin-bottom:14px;">채널홈 유입 검색 키워드 TOP 8</div>
+          <div class="tab-bar">
+            <div class="tab active">오늘</div>
+            <div class="tab">어제</div>
+            <div class="tab">7일</div>
+          </div>
+          <table class="keyword-table">
+            <thead>
+              <tr>
+                <th>검색어</th>
+                <th>실시간</th>
+                <th>오늘 유입</th>
+                <th>전환율</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="keyword-rank top">1</span>성수 스몰커피</td>
+                <td>18</td>
+                <td>284</td>
+                <td><span style="color:var(--green);font-weight:600;">72%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank top">2</span>스몰커피 성수</td>
+                <td>11</td>
+                <td>168</td>
+                <td><span style="color:var(--green);font-weight:600;">68%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank top">3</span>성수동 스몰카페</td>
+                <td>7</td>
+                <td>94</td>
+                <td><span style="color:var(--orange);font-weight:600;">41%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">4</span>성수 핸드드립</td>
+                <td>4</td>
+                <td>62</td>
+                <td><span style="color:var(--orange);font-weight:600;">38%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">5</span>성수역 조용한카페</td>
+                <td>3</td>
+                <td>48</td>
+                <td><span style="color:var(--orange);font-weight:600;">34%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">6</span>성동구 소규모카페</td>
+                <td>2</td>
+                <td>34</td>
+                <td><span style="color:var(--text3);font-weight:600;">22%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">7</span>스페셜티커피 서울</td>
+                <td>2</td>
+                <td>28</td>
+                <td><span style="color:var(--text3);font-weight:600;">19%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">8</span>성수 작은카페</td>
+                <td>1</td>
+                <td>22</td>
+                <td><span style="color:var(--text3);font-weight:600;">17%</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════
+           SECTION 3 · 카카오맵 매장 통계
+      ════════════════════════════════ -->
+      <div class="section-header" style="margin-top:40px;">
+        <div class="section-icon accent-green">📍</div>
+        <div class="section-title">카카오맵 매장 통계</div>
+      </div>
+
+      <!-- 맵 핵심 지표 6개 -->
+      <div class="map-stat-grid" style="margin-bottom:12px;">
+        <div class="map-stat-cell">
+          <div class="stat-label">매장상세 방문 · 실시간</div>
+          <div class="realtime-ticker">
+            <span class="ticker-num" style="color:var(--green)">31</span>
+            <span class="ticker-unit">명/분</span>
+          </div>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="stat-mini-label">오늘 누적</div><div class="stat-mini-value">2,480</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">어제</div><div class="stat-mini-value">2,120</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">7일</div><div class="stat-mini-value">14,860</div></div>
+          </div>
+        </div>
+        <div class="map-stat-cell">
+          <div class="stat-label">맵 내 검색 노출 · 오늘</div>
+          <div class="stat-value md">18,340</div>
+          <span class="delta up">↑ 19.2%</span>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="stat-mini-label">클릭률(CTR)</div><div class="stat-mini-value">13.5%</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">어제 CTR</div><div class="stat-mini-value">11.8%</div></div>
+          </div>
+        </div>
+        <div class="map-stat-cell">
+          <div class="stat-label">즐겨찾기(저장) · 오늘</div>
+          <div class="stat-value md">+84</div>
+          <span class="delta up">↑ 22%</span>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="stat-mini-label">총 즐겨찾기</div><div class="stat-mini-value">3,142</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">7일 신규</div><div class="stat-mini-value">+384</div></div>
+          </div>
+        </div>
+        <div class="map-stat-cell">
+          <div class="stat-label">목적지 설정 · 오늘</div>
+          <div class="stat-value md">248</div>
+          <span class="delta up">↑ 14.7%</span>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="stat-mini-label">어제</div><div class="stat-mini-value">216</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">7일</div><div class="stat-mini-value">1,480</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">전환율</div><div class="stat-mini-value">10.0%</div></div>
+          </div>
+        </div>
+        <div class="map-stat-cell">
+          <div class="stat-label">지도 근처 탐색 노출 · 오늘</div>
+          <div class="stat-value md">6,840</div>
+          <span class="delta flat">→ 0.8%</span>
+          <div class="card-note">주변 지도 스와이핑 시 노출된 횟수</div>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="stat-mini-label">탐색 클릭</div><div class="stat-mini-value">824</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">탐색 CTR</div><div class="stat-mini-value">12.1%</div></div>
+          </div>
+        </div>
+        <div class="map-stat-cell">
+          <div class="stat-label">리뷰 · 평점</div>
+          <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px;">
+            <div class="stat-value md" style="color:var(--orange);">4.8</div>
+            <div style="font-size:18px;">⭐</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="stat-mini-label">총 리뷰</div><div class="stat-mini-value">342</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">오늘 신규</div><div class="stat-mini-value">+7</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">이번 달</div><div class="stat-mini-value">+48</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 맵 유입경로 + 검색키워드 -->
+      <div class="grid-2">
+        <div class="card">
+          <div style="font-size:13px;font-weight:700;margin-bottom:14px;">매장상세 유입 경로</div>
+          <div class="tab-bar">
+            <div class="tab active">오늘</div>
+            <div class="tab">어제</div>
+            <div class="tab">7일</div>
+          </div>
+
+          <div class="source-item">
+            <div class="source-icon accent-green">🗺️</div>
+            <div style="flex:1;">
+              <div class="source-name">카카오맵 검색</div>
+              <div class="source-sub">키워드 검색 → 매장 클릭</div>
+            </div>
+            <div><div class="source-num">1,140</div><div class="source-pct">46.0%</div></div>
+          </div>
+          <div class="source-item">
+            <div class="source-icon" style="background:rgba(90,200,250,.15);">🧭</div>
+            <div style="flex:1;">
+              <div class="source-name">지도 탐색 (스와이핑)</div>
+              <div class="source-sub">주변 지도 탐색 중 클릭</div>
+            </div>
+            <div><div class="source-num">824</div><div class="source-pct">33.2%</div></div>
+          </div>
+          <div class="source-item">
+            <div class="source-icon accent-yellow">💬</div>
+            <div style="flex:1;">
+              <div class="source-name">카카오톡 채널 연동</div>
+              <div class="source-sub">채널홈 → 맵 연결</div>
+            </div>
+            <div><div class="source-num">348</div><div class="source-pct">14.0%</div></div>
+          </div>
+          <div class="source-item">
+            <div class="source-icon accent-blue">🔗</div>
+            <div style="flex:1;">
+              <div class="source-name">외부 링크</div>
+              <div class="source-sub">블로그, 카카오스토리 등</div>
+            </div>
+            <div><div class="source-num">168</div><div class="source-pct">6.8%</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="font-size:13px;font-weight:700;margin-bottom:14px;">맵 유입 검색 키워드 TOP 8</div>
+          <div class="tab-bar">
+            <div class="tab active">오늘</div>
+            <div class="tab">어제</div>
+            <div class="tab">7일</div>
+          </div>
+          <table class="keyword-table">
+            <thead>
+              <tr>
+                <th>검색어</th>
+                <th>실시간</th>
+                <th>오늘 유입</th>
+                <th>목적지 전환</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="keyword-rank top">1</span>성수 스몰커피</td>
+                <td>22</td>
+                <td>320</td>
+                <td><span style="color:var(--green);font-weight:600;">28%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank top">2</span>성수역 카페</td>
+                <td>14</td>
+                <td>218</td>
+                <td><span style="color:var(--green);font-weight:600;">24%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank top">3</span>성수동 카페 추천</td>
+                <td>9</td>
+                <td>142</td>
+                <td><span style="color:var(--orange);font-weight:600;">18%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">4</span>성동구 카페</td>
+                <td>6</td>
+                <td>98</td>
+                <td><span style="color:var(--orange);font-weight:600;">14%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">5</span>핸드드립 카페 성수</td>
+                <td>4</td>
+                <td>74</td>
+                <td><span style="color:var(--text3);font-weight:600;">11%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">6</span>성수 조용한 카페</td>
+                <td>3</td>
+                <td>58</td>
+                <td><span style="color:var(--text3);font-weight:600;">9%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">7</span>스페셜티 커피 서울</td>
+                <td>2</td>
+                <td>42</td>
+                <td><span style="color:var(--text3);font-weight:600;">8%</span></td>
+              </tr>
+              <tr>
+                <td><span class="keyword-rank">8</span>성수 감성카페</td>
+                <td>1</td>
+                <td>28</td>
+                <td><span style="color:var(--text3);font-weight:600;">7%</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════
+           SECTION 4 · 즐겨찾기 & 목적지 심층
+      ════════════════════════════════ -->
+      <div class="section-header" style="margin-top:40px;">
+        <div class="section-icon accent-purple">⭐</div>
+        <div class="section-title">즐겨찾기 · 목적지 설정 상세</div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="stat-label">즐겨찾기 추이 (최근 7일)</div>
+          <div style="display:flex;align-items:flex-end;gap:6px;margin-top:8px;height:60px;">
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;">
+              <span style="font-size:9px;color:var(--text3);">48</span>
+              <div style="width:100%;background:var(--purple);border-radius:3px 3px 0 0;height:48px;opacity:.7;"></div>
+              <span style="font-size:9px;color:var(--text3);">월</span>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;">
+              <span style="font-size:9px;color:var(--text3);">52</span>
+              <div style="width:100%;background:var(--purple);border-radius:3px 3px 0 0;height:52px;opacity:.7;"></div>
+              <span style="font-size:9px;color:var(--text3);">화</span>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;">
+              <span style="font-size:9px;color:var(--text3);">44</span>
+              <div style="width:100%;background:var(--purple);border-radius:3px 3px 0 0;height:44px;opacity:.7;"></div>
+              <span style="font-size:9px;color:var(--text3);">수</span>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;">
+              <span style="font-size:9px;color:var(--text3);">61</span>
+              <div style="width:100%;background:var(--purple);border-radius:3px 3px 0 0;height:61px;opacity:.7;"></div>
+              <span style="font-size:9px;color:var(--text3);">목</span>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;">
+              <span style="font-size:9px;color:var(--text3);">78</span>
+              <div style="width:100%;background:var(--purple);border-radius:3px 3px 0 0;height:78px;"></div>
+              <span style="font-size:9px;color:var(--text3);">금</span>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;">
+              <span style="font-size:9px;color:var(--text3);">72</span>
+              <div style="width:100%;background:var(--purple);border-radius:3px 3px 0 0;height:72px;"></div>
+              <span style="font-size:9px;color:var(--text3);">토</span>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;">
+              <span style="font-size:9px;color:var(--text3);">84</span>
+              <div style="width:100%;background:var(--kakao);border-radius:3px 3px 0 0;height:84px;"></div>
+              <span style="font-size:9px;color:var(--text);">오늘</span>
+            </div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="stat-mini-label">오늘</div><div class="stat-mini-value" style="color:var(--purple);">+84</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">7일 합계</div><div class="stat-mini-value">+439</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">총 누적</div><div class="stat-mini-value">3,142</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="stat-label">목적지 설정 funnel</div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;">
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:12px;">맵 검색 노출</span>
+                <span style="font-size:12px;font-weight:600;">18,340</span>
+              </div>
+              <div style="height:6px;background:var(--bg);border-radius:3px;overflow:hidden;">
+                <div style="width:100%;height:100%;background:var(--teal);border-radius:3px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:12px;">매장상세 클릭</span>
+                <span style="font-size:12px;font-weight:600;">2,480 <span style="color:var(--text3);font-weight:400;">13.5%</span></span>
+              </div>
+              <div style="height:6px;background:var(--bg);border-radius:3px;overflow:hidden;">
+                <div style="width:13.5%;height:100%;background:var(--blue);border-radius:3px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:12px;">즐겨찾기 저장</span>
+                <span style="font-size:12px;font-weight:600;">84 <span style="color:var(--text3);font-weight:400;">3.4%</span></span>
+              </div>
+              <div style="height:6px;background:var(--bg);border-radius:3px;overflow:hidden;">
+                <div style="width:3.4%;height:100%;background:var(--purple);border-radius:3px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:12px;">목적지 설정</span>
+                <span style="font-size:12px;font-weight:600;">248 <span style="color:var(--text3);font-weight:400;">10.0%</span></span>
+              </div>
+              <div style="height:6px;background:var(--bg);border-radius:3px;overflow:hidden;">
+                <div style="width:10%;height:100%;background:var(--green);border-radius:3px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:12px;">채널 연결 (채팅/팔로우)</span>
+                <span style="font-size:12px;font-weight:600;">96 <span style="color:var(--text3);font-weight:400;">3.9%</span></span>
+              </div>
+              <div style="height:6px;background:var(--bg);border-radius:3px;overflow:hidden;">
+                <div style="width:3.9%;height:100%;background:var(--orange);border-radius:3px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="stat-label">즐겨찾기 유저 프로필</div>
+          <div style="margin-top:12px;">
+            <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">연령대 분포</div>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:12px;width:28px;">20대</span>
+                <div style="flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;"><div style="width:44%;height:100%;background:var(--purple);border-radius:4px;"></div></div>
+                <span style="font-size:11px;font-weight:600;width:28px;">44%</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:12px;width:28px;">30대</span>
+                <div style="flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;"><div style="width:32%;height:100%;background:var(--purple);border-radius:4px;"></div></div>
+                <span style="font-size:11px;font-weight:600;width:28px;">32%</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:12px;width:28px;">40대</span>
+                <div style="flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;"><div style="width:14%;height:100%;background:var(--purple);border-radius:4px;"></div></div>
+                <span style="font-size:11px;font-weight:600;width:28px;">14%</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:12px;width:28px;">50대+</span>
+                <div style="flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;"><div style="width:10%;height:100%;background:var(--purple);border-radius:4px;"></div></div>
+                <span style="font-size:11px;font-weight:600;width:28px;">10%</span>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div style="font-size:11px;color:var(--text3);margin:10px 0 8px;">즐겨찾기 → 목적지 전환율</div>
+            <div style="display:flex;align-items:baseline;gap:6px;">
+              <span style="font-size:28px;font-weight:800;color:var(--green);">34.2%</span>
+              <span style="font-size:12px;color:var(--text2);">즐겨찾기 후 방문 전환</span>
+            </div>
+            <div class="card-note">즐겨찾기 후 30일 내 목적지 설정 기준</div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════
+           SECTION 5 · 지도 탐색 상세
+      ════════════════════════════════ -->
+      <div class="section-header" style="margin-top:40px;">
+        <div class="section-icon" style="background:rgba(90,200,250,.15);">🧭</div>
+        <div class="section-title">카카오맵 근처 탐색 (스와이핑) 통계</div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="stat-label">탐색 노출 · 실시간</div>
+          <div class="realtime-ticker">
+            <span class="ticker-num" style="color:var(--teal)">74</span>
+            <span class="ticker-unit">노출/분</span>
+          </div>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="stat-mini-label">오늘 누적</div><div class="stat-mini-value">6,840</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">어제</div><div class="stat-mini-value">6,780</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">7일</div><div class="stat-mini-value">46,200</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="stat-label">탐색 클릭 · 오늘</div>
+          <div class="stat-value md">824</div>
+          <span class="delta up">↑ 4.2%</span>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="stat-mini-label">탐색 CTR</div><div class="stat-mini-value">12.1%</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">어제 CTR</div><div class="stat-mini-value">11.3%</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="stat-label">탐색 → 목적지 전환 · 오늘</div>
+          <div class="stat-value md">96</div>
+          <span class="delta up">↑ 7.1%</span>
+          <div class="stat-row">
+            <div class="stat-mini"><div class="stat-mini-label">탐색→목적지율</div><div class="stat-mini-value">11.7%</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">탐색→즐찾</div><div class="stat-mini-value">28</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 탐색 시간대 + 반경 분포 -->
+      <div class="grid-2" style="margin-top:12px;">
+        <div class="card">
+          <div style="font-size:13px;font-weight:700;margin-bottom:8px;">탐색 노출 시간대 (오늘)</div>
+          <div style="display:flex;align-items:flex-end;gap:3px;height:64px;margin-top:8px;">
+            <!-- 24시간 막대 -->
+            <div style="flex:1;height:12%;background:var(--teal);opacity:.4;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:8%;background:var(--teal);opacity:.3;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:6%;background:var(--teal);opacity:.3;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:5%;background:var(--teal);opacity:.3;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:8%;background:var(--teal);opacity:.4;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:14%;background:var(--teal);opacity:.5;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:28%;background:var(--teal);opacity:.6;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:42%;background:var(--teal);opacity:.7;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:62%;background:var(--teal);opacity:.8;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:72%;background:var(--teal);opacity:.9;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:84%;background:var(--teal);border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:90%;background:var(--teal);border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:96%;background:var(--teal);border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:100%;background:var(--teal);border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:92%;background:var(--teal);border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:74%;background:var(--teal);opacity:.9;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:62%;background:var(--teal);opacity:.8;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:52%;background:var(--teal);opacity:.7;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:68%;background:var(--teal);opacity:.8;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:78%;background:var(--teal);opacity:.9;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:70%;background:var(--teal);opacity:.85;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:58%;background:var(--teal);opacity:.75;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:44%;background:var(--teal);opacity:.65;border-radius:2px 2px 0 0;"></div>
+            <div style="flex:1;height:26%;background:var(--teal);opacity:.55;border-radius:2px 2px 0 0;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:4px;">
+            <span style="font-size:9px;color:var(--text3);">0시</span>
+            <span style="font-size:9px;color:var(--text3);">6시</span>
+            <span style="font-size:9px;color:var(--text3);">12시</span>
+            <span style="font-size:9px;color:var(--text3);">18시</span>
+            <span style="font-size:9px;color:var(--text3);">23시</span>
+          </div>
+        </div>
+        <div class="card">
+          <div style="font-size:13px;font-weight:700;margin-bottom:14px;">탐색 유저 출발 반경 분포</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:12px;">500m 이내</span>
+                <span style="font-size:12px;font-weight:600;">18%</span>
+              </div>
+              <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden;"><div style="width:18%;height:100%;background:var(--green);border-radius:4px;"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:12px;">500m~1km</span>
+                <span style="font-size:12px;font-weight:600;">28%</span>
+              </div>
+              <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden;"><div style="width:28%;height:100%;background:var(--teal);border-radius:4px;"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:12px;">1~3km</span>
+                <span style="font-size:12px;font-weight:600;">32%</span>
+              </div>
+              <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden;"><div style="width:32%;height:100%;background:var(--blue);border-radius:4px;"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:12px;">3~10km</span>
+                <span style="font-size:12px;font-weight:600;">16%</span>
+              </div>
+              <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden;"><div style="width:16%;height:100%;background:var(--orange);border-radius:4px;"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:12px;">10km 이상</span>
+                <span style="font-size:12px;font-weight:600;">6%</span>
+              </div>
+              <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden;"><div style="width:6%;height:100%;background:var(--red);border-radius:4px;"></div></div>
+            </div>
+          </div>
+          <div class="card-note" style="margin-top:12px;">주요 탐색 반경: 1~3km (출발지 기준)</div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+</div>
+
+<script>
+  // 실시간 숫자 ticker 애니메이션 (시연용)
+  function randomFlicker(el, base, variance) {
+    setInterval(() => {
+      const val = base + Math.round((Math.random() - 0.5) * variance);
+      el.textContent = val.toLocaleString('ko-KR');
+    }, 8000 + Math.random() * 4000);
+  }
+
+  document.querySelectorAll('.ticker-num').forEach((el, i) => {
+    const bases = [1247, 38, 24, 31, 74];
+    const vars  = [60,   4,  3,  4,  8];
+    if (bases[i] !== undefined) randomFlicker(el, bases[i], vars[i]);
+  });
+
+  // 마지막 업데이트 시간
+  function updateTime() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    document.querySelector('.last-update').textContent = `마지막 업데이트 ${h}:${m}`;
+  }
+  setInterval(updateTime, 60000);
+
+  // 탭 토글
+  document.querySelectorAll('.date-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      tab.closest('.date-tabs').querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      tab.closest('.tab-bar').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
